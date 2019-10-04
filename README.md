@@ -32,12 +32,12 @@ There are two integrations: [client-only](./client-only) and [client-and-server]
 :--- | :---: | :---:
 🔨 **Prebuilt checkout page.** Create a payment page that is customizable with your business' name and logo. | ✅  | ✅ |
 🔢 **Dynamic checkout amounts.** Dynamically define product amounts rather than relying on predefined SKUs.  | ❌  | ✅ |
-⌛ **Capture payments later.** Optionally split the capture and authorization steps to place a hold on the card and charge later. | ❌ | ✅ |
+⌛ **Capture payments later.** Optionally split the capture and authorization steps to place a hold on the card and client-and-server later. | ❌ | ✅ |
 
 ### Client-only flowchart 
 <img src="https://storage.googleapis.com/stripe-samples-flow-charts/checkout-one-time-client-only.png" alt="A flowchart of the Checkout flow" align="center">
 
-### Client-and-server flowchart
+### client-and-server flowchart
 <img src="https://storage.googleapis.com/stripe-samples-flow-charts/checkout-one-time-client-server.png" alt="A flowchart of the Checkout flow" align="center">
 
 ## How to run locally

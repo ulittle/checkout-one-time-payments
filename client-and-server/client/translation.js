@@ -9,7 +9,7 @@ i18next
       debug: false,
       backend: {
         // load from locales folder.
-        loadPath: "/locales/{{lng}}.json",
+        loadPath: "./stripe/client-and-server/client/locales/{{lng}}.json",
         crossDomain: false
       }
     },

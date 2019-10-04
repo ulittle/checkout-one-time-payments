@@ -1,70 +1,26 @@
 // The max and min number of photos a customer can purchase
-var MIN_PHOTOS = 1;
-var MAX_PHOTOS = 10;
+
 
 var basicPhotoButton = document.getElementById("basic-photo-button");
 document
-  .getElementById("quantity-input")
-  .addEventListener("change", function(evt) {
+  // .getElementById("quantity-input") // <-- Original component
+    .getElementById("amountInDollars")
+    .addEventListener("change", function(evt) {
     // Ensure customers only buy between 1 and 10 photos
-    if (evt.target.value < MIN_PHOTOS) {
-      evt.target.value = MIN_PHOTOS;
-    }
-    if (evt.target.value > MAX_PHOTOS) {
-      evt.target.value = MAX_PHOTOS;
-    }
+    // if (evt.target.value < MIN_PHOTOS) {
+    //   evt.target.value = MIN_PHOTOS;
+    // }
+    // if (evt.target.value > MAX_PHOTOS) {
+    //   evt.target.value = MAX_PHOTOS;
+    // }
+
+      console.log(" --> " +  $("#amountInDollars option:selected").text());
+
+
   });
 
-/* Method for changing the product quantity when a customer clicks the increment / decrement buttons */
-var updateQuantity = function(evt) {
-  if (evt && evt.type === "keypress" && evt.keyCode !== 13) {
-    return;
-  }
 
-  var isAdding = evt && evt.target.id === "add";
-  var inputEl = document.getElementById("quantity-input");
-  var currentQuantity = parseInt(inputEl.value);
 
-  document.getElementById("add").disabled = false;
-  document.getElementById("subtract").disabled = false;
-
-  // Calculate new quantity
-  var quantity = evt
-    ? isAdding
-      ? currentQuantity + 1
-      : currentQuantity - 1
-    : currentQuantity;
-  // Update number input with new value.
-  inputEl.value = quantity;
-  // Caluclate the total amount and format it with currency symbol.
-  var total = ((quantity * config.basePrice) / 100).toFixed(2);
-  var numberFormat = new Intl.NumberFormat(i18next.language, {
-    style: "currency",
-    currency: config.currency,
-    currencyDisplay: "symbol"
-  });
-  var formattedTotal = numberFormat.format(total);
-
-  document
-    .getElementById("submit")
-    .setAttribute("i18n-options", `{ "total": "${formattedTotal}" }`);
-  updateContent("button.submit");
-
-  // Disable the button if the customers hits the max or min
-  if (quantity === MIN_PHOTOS) {
-    document.getElementById("subtract").disabled = true;
-  }
-  if (quantity === MAX_PHOTOS) {
-    document.getElementById("add").disabled = true;
-  }
-};
-
-/* Attach method */
-Array.from(document.getElementsByClassName("increment-btn")).forEach(
-  element => {
-    element.addEventListener("click", updateQuantity);
-  }
-);
 
 /* Handle any errors returns from Checkout  */
 var handleResult = function(result) {
@@ -76,10 +32,10 @@ var handleResult = function(result) {
 
 // Create a Checkout Session with the selected quantity
 var createCheckoutSession = function(stripe) {
-  var inputEl = document.getElementById("quantity-input");
+  var inputEl = document.getElementById("amountInDollars");
   var quantity = parseInt(inputEl.value);
 
-  return fetch("/create-checkout-session", {
+  return fetch("./create-checkout-session.php", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -101,16 +57,17 @@ var handleResult = function(result) {
 };
 
 /* Get your Stripe public key to initialize Stripe.js */
-fetch("/config")
+fetch("http://localhost:8888/portal_semantic/stripe/client-and-server/server/php/config")
   .then(function(result) {
     return result.json();
+    alert("TEST !")
   })
   .then(function(json) {
     window.config = json;
     var stripe = Stripe(config.publicKey);
-    updateQuantity();
+
     // Setup event handler to create a Checkout Session on submit
-    document.querySelector("#submit").addEventListener("click", function(evt) {
+    document.querySelector("#submitButton").addEventListener("click", function(evt) {
       createCheckoutSession().then(function(data) {
         stripe
           .redirectToCheckout({

@@ -3,7 +3,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Stripe\Stripe;
 
-require 'vendor/autoload.php';
+require './vendor/autoload.php';
 
 $ENV_PATH = '../../..';
 $dotenv = Dotenv\Dotenv::create(realpath($ENV_PATH));
@@ -69,8 +69,8 @@ $app->post('/create-checkout-session', function(Request $request, Response $resp
 
   // ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
   $checkout_session = \Stripe\Checkout\Session::create([
-    'success_url' => $domain_url . '/success.html?session_id={CHECKOUT_SESSION_ID}',
-    'cancel_url' => $domain_url . '/canceled.html',
+    'success_url' => $domain_url . '../../client-and-server/client/success.html?session_id={CHECKOUT_SESSION_ID}',
+    'cancel_url' => $domain_url . '../../client-and-server/client/canceled.html',
     'payment_method_types' => ['card'],
     'line_items' => [[
       'name' => 'Pasha photo',
